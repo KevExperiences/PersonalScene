@@ -49,7 +49,7 @@ A scene file is a single JSON object with three top-level fields.
 
 ```json
 {
-  "avatar": "../models/Black/Black_F_1_Busi.vrm",
+  "avatar": "models/Black/Black_F_1_Busi.vrm",
   "idle": {
     "blinkIntervalMin": 2.0,
     "blinkIntervalMax": 5.0,
@@ -322,12 +322,11 @@ useful when diffing against a new VRM.
 
 ### Path conventions used by the existing manifests
 
-- VRMs live in `../models/<race>/...` (a sibling directory to the project).
+- VRMs live in `models/<race>/` inside the project.
 - Converted animation JSONs live in `animations/`.
 - Audio files live in `audio/`.
-- Manifest URLs are resolved relative to the served page root (Vite serves
-  `dist/scene` content, so `../scene3.json` walks up to the project root
-  manifest).
+- Manifest asset URLs are resolved relative to the manifest URL. The build
+  copies manifests and runtime assets into `dist/` alongside the app.
 
 If you put assets elsewhere, just update the strings in the manifest — they
 are plain URLs that get `fetch`ed.

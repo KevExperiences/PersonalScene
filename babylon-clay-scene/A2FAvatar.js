@@ -126,12 +126,13 @@ export class A2FAvatar {
     const resp = await fetch(manifestPath);
     if (!resp.ok) throw new Error(`Failed to load manifest: HTTP ${resp.status}`);
     this.manifest = await resp.json();
+    const resolveAssetUrl = (assetPath) => new URL(assetPath, resp.url).href;
 
     if (this.manifest.idle) {
       Object.assign(this.idleConfig, this.manifest.idle);
     }
 
-    await this._loadVRM(this.manifest.avatar);
+    await this._loadVRM(resolveAssetUrl(this.manifest.avatar));
 
     this.clips = [];
     for (const entry of this.manifest.clips) {
@@ -139,7 +140,7 @@ export class A2FAvatar {
       // a clip with neither becomes a no-op used for explicit waits via delayAfter.
       let animData = null;
       if (entry.animation && entry.animation !== 'N/A') {
-        const animResp = await fetch(entry.animation);
+        const animResp = await fetch(resolveAssetUrl(entry.animation));
         if (animResp.ok) {
           try {
             animData = await animResp.json();
@@ -150,7 +151,7 @@ export class A2FAvatar {
           console.warn(`[A2FAvatar] Animation ${entry.animation} returned HTTP ${animResp.status} — skipping`);
         }
       }
-      const audioSrc = (entry.audio && entry.audio !== 'N/A') ? entry.audio : null;
+      const audioSrc = (entry.audio && entry.audio !== 'N/A') ? resolveAssetUrl(entry.audio) : null;
       this.clips.push({ animData, audioSrc, id: entry.id, delayAfter: entry.delayAfter ?? 1.0 });
     }
 
