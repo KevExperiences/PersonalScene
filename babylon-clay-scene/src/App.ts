@@ -27,6 +27,7 @@ import "@babylonjs/core/Rendering/depthRendererSceneComponent";
 import "@babylonjs/core/Rendering/prePassRendererSceneComponent";
 
 import "@babylonjs/core/Materials/Textures/Loaders/envTextureLoader";
+import '@babylonjs/core/Materials/Node/Blocks';
 
 import "@babylonjs/core/Physics";
 
