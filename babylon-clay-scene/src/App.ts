@@ -208,6 +208,12 @@ export class App {
 				const speed = 500;
 				let lastFrameTime = performance.now();
 				let isXRActive = false;
+				
+				xrHelper.baseExperience.enterXRAsync("immersive-vr", "local-floor").then(() => {
+					console.log('[App] Entered XR mode');
+				}).catch((error) => {
+					console.error("Could not enter XR:", error);
+				});
 
 				console.log('[App] Adding XR state observer...');
 				xrHelper.baseExperience.onStateChangedObservable.add((state) => {
